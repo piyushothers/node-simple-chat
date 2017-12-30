@@ -12,6 +12,15 @@ var io = socketIO(server);
 
 io.on('connection', (socket) => {
     console.log('new user connected')
+    socket.emit('newMessage',{
+        from:'Admin',
+        text:'Welcome'
+    }) ;
+
+    socket.broadcast.emit('newMessage',{
+        from: 'Admin',
+        text:'A new user joined'
+    })
     socket.on('disconnect', (socket) => {
         console.log('client disconnected')
     });
@@ -23,6 +32,11 @@ io.on('connection', (socket) => {
             text:message.text,
             createdAt : new Date().getTime()
         })
+        // socket.broadcast.emit('newMessage',{
+        //     from:message.from,
+        //     text:message.txt,
+        //     createdAt: new Date().getTime()
+        // })
     })
     
 }
